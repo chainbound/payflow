@@ -1,4 +1,7 @@
 # Payflow
+[![npm](https://img.shields.io/npm/v/@chainbound/payflow-mcp)](https://www.npmjs.com/package/@chainbound/payflow-mcp)
+[![npm](https://img.shields.io/npm/v/@chainbound/payflow-sdk)](https://www.npmjs.com/package/@chainbound/payflow-sdk)
+
 > An exploration of agentic commerce with MCP.
 
 ## Claude Desktop Quickstart
