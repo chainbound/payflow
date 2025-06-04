@@ -13,8 +13,6 @@ import { EthRpcHandler } from "./handlers/ethrpc.js";
 
 const log = debug("cryo:mcp");
 
-const PRICE = 0.01;
-
 /**
  * The maximum aggregated blocks per query.
  */
@@ -54,7 +52,7 @@ IMPORTANT: The maximum number of blocks that can be queried at once is ${MAX_BLO
 
 const RPC_URL = process.env.RPC_URL!;
 
-export const createServer = () => {
+export const createServer = (price: number) => {
     const server = new PayflowMcpServer({
         name: pkg.name,
         version: pkg.version,
@@ -123,7 +121,7 @@ export const createServer = () => {
     })
 
     server.paidTool("query_dataset", QUERY_DATASET_DESCRIPTION, {
-        price: PRICE,
+        price: price,
         recipient: RECIPIENT,
     }, {
         name: z.string().describe("The name of the dataset to query"),

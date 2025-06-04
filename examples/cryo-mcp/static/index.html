@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryo MCP - Ethereum Data for Claude</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: #0a0a0a;
+            color: #e5e5e5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0 30px;
+            background: #111;
+            border-bottom: 1px solid #333;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #999;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content {
+            padding: 80px 0;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .warning {
+            background: #1a1a1a;
+            color: #ffa500;
+            padding: 20px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .config-card {
+            background: #111;
+            border: 1px solid #333;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .config-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .code-container {
+            position: relative;
+        }
+
+        pre {
+            background: #000;
+            color: #e5e5e5;
+            padding: 24px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #333;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        }
+
+        .copy-btn {
+            background: #333;
+            color: #999;
+            border: none;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 12px;
+            transition: all 0.15s ease;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #444;
+            color: #fff;
+        }
+
+        .copy-btn:active {
+            background: #555;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: #333;
+            margin-bottom: 40px;
+        }
+
+        .tool-card {
+            background: #111;
+            padding: 24px;
+            transition: background 0.15s ease;
+        }
+
+        .tool-card:hover {
+            background: #1a1a1a;
+        }
+
+        .tool-name {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .tool-description {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .paid-badge {
+            display: inline-block;
+            background: #ffa500;
+            color: #000;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 16px;
+            padding-left: 40px;
+            position: relative;
+            color: #e5e5e5;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #fff;
+            color: #000;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        code {
+            background: #1a1a1a;
+            color: #ffa500;
+            padding: 2px 6px;
+            font-size: 0.9em;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #333;
+            margin-top: 80px;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .main-content {
+                padding: 40px 0;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Payflow</h1>
+            <p class="hero-subtitle">
+                An exploration of agentic commerce with micropayments and MCP.
+            </p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="warning">
+                <strong>Setup Required:</strong> Set your <code>PRIVATE_KEY</code> in the payflow configuration
+                below.
+                This wallet will be used to pay for cryo queries ({{PRICE}} USDC per query). It should be a wallet on
+                Base
+                with some USDC.
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Claude Desktop Configuration</h2>
+                <div class="config-card">
+                    <div class="config-title">Add this to your <code>claude_desktop_config.json</code>:</div>
+                    <div class="code-container">
+                        <pre id="config">{{CONFIG_JSON}}</pre>
+                        <button class="copy-btn" onclick="copyToClipboard()">Copy Configuration</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Available Tools</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-name">get_latest_block_number</div>
+                        <div class="tool-description">Get the latest block number for recent data queries</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">list_datasets</div>
+                        <div class="tool-description">List all available cryo datasets (blocks, transactions, logs,
+                            etc.)</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">describe_dataset</div>
+                        <div class="tool-description">Get detailed schema information for any dataset</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">query_dataset<span class="paid-badge">{{PRICE}} USDC</span></div>
+                        <div class="tool-description">Query blockchain data and export to Parquet files</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">query_sql</div>
+                        <div class="tool-description">Run DuckDB SQL queries against your exported data</div>
+                    </div>
+                    <div class="tool-card">
+                        <div class="tool-name">translate_event_signature</div>
+                        <div class="tool-description">Decode hexadecimal event signatures to human-readable names</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">
+                Powered by <a href="https://github.com/paradigmxyz/cryo" class="link" target="_blank">cryo</a> •
+                Built with <a href="https://github.com/modelcontextprotocol" class="link" target="_blank">MCP</a> •
+                Payments via <a href="https://www.x402.org" class="link" target="_blank">x402</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const configText = document.getElementById('config').textContent;
+            navigator.clipboard.writeText(configText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+
+</html>

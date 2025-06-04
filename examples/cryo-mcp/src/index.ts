@@ -14,6 +14,11 @@ app.use(express.json());
 
 const log = debug("cryo:server");
 
+/**
+ * The price of a query in USDC.
+ */
+const PRICE = 0.01;
+
 // Map to store transports by session ID
 const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
 
@@ -101,7 +106,7 @@ app.post("/v1/mcp", async (req: Request, res: Response) => {
             }
         }
 
-        const server = createServer();
+        const server = createServer(PRICE);
 
         await server.connect(transport);
     } else {
@@ -150,6 +155,48 @@ const handleSessionRequest = async (req: Request, res: Response) => {
 app.get('/v1/mcp', handleSessionRequest);
 
 app.delete('/v1/mcp', handleSessionRequest);
+
+// Serve Claude Desktop configuration
+app.get('/', (req: Request, res: Response) => {
+    const config = {
+        "mcpServers": {
+            "cryo": {
+                "command": "npx",
+                "args": [
+                    "mcp-remote",
+                    "https://cryo-mcp.fly.dev/v1/mcp",
+                    "--header",
+                    "Authorization: test",
+                    "--transport",
+                    "http-only"
+                ]
+            },
+            "payflow": {
+                "command": "npx",
+                "args": ["@chainbound/payflow-mcp"],
+                "env": {
+                    "PRIVATE_KEY": "",
+                    "MAX_PAYMENT_AMOUNT_USDC": "10",
+                }
+            }
+        }
+    };
+
+    try {
+        // Read the HTML template file
+        const htmlTemplate = fs.readFileSync(path.join(process.cwd(), 'static', 'index.html'), 'utf8');
+
+        // Replace the placeholders with actual values
+        const html = htmlTemplate
+            .replace('{{CONFIG_JSON}}', JSON.stringify(config, null, 2))
+            .replace(/\{\{PRICE\}\}/g, PRICE.toString());
+
+        res.send(html);
+    } catch (error) {
+        log('Error reading HTML template:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // Start the server
 const PORT = parseInt(process.env.PORT || '3000', 10);
