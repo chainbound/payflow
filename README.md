@@ -39,3 +39,28 @@ For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](.
   }
 }
 ```
+
+## Sequence Diagram
+```mermaid
+sequenceDiagram
+    box White Local
+    participant Claude
+    participant Payflow MCP
+    end
+    box White Remote
+    participant Cryo MCP
+    participant Facilitator
+    end
+    Claude->>+Cryo MCP: get_tool_details
+    Cryo MCP -->>-Claude: details
+    Claude->>Claude: evaluate_details
+    alt proceed
+        Claude->>+Payflow MCP: generate_payment
+        Payflow MCP->>-Claude: payment_details
+        Claude->>+Cryo MCP: tool_call, payment
+        Cryo MCP->>+Facilitator: verify and settle
+        Facilitator->>-Cryo MCP: response (success)
+        Cryo MCP->>-Claude: tool_result
+        Claude->>Claude: process & present result to user
+    end
+```
