@@ -43,11 +43,11 @@ For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](.
 ## Sequence Diagram
 ```mermaid
 sequenceDiagram
-    box White Local
+    box Grey Local
     participant Claude
     participant Payflow MCP
     end
-    box White Remote
+    box Purple Remote
     participant Cryo MCP
     participant Facilitator
     end
