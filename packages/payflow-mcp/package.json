@@ -7,6 +7,14 @@
   "bin": {
     "payflow-mcp": "./dist/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chainbound/payflow"
+  },
+  "homepage": "https://github.com/chainbound/payflow#readme",
+  "bugs": {
+    "url": "https://github.com/chainbound/payflow/issues"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",

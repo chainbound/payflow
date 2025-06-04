@@ -13,7 +13,7 @@ import { EthRpcHandler } from "./handlers/ethrpc.js";
 
 const log = debug("cryo:mcp");
 
-const PRICE = 0.05;
+const PRICE = 0.01;
 
 /**
  * The maximum aggregated blocks per query.

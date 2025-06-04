@@ -14,3 +14,7 @@ format:
 # Build all packages in the workspace
 build:
     pnpm -r run build
+
+# Publish all packages in the workspace
+publish:
+    pnpm -r publish --access public
