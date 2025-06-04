@@ -20,8 +20,10 @@ export class CryoHandler {
 
   async spawn(args: string[]): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      const command = `cryo ${args.join(' ')}`;
+      const escapedArgs = args.map((arg) => (arg.includes(' ') ? `"${arg.replace(/"/g, '\\"')}"` : arg));
+      const command = `cryo ${escapedArgs.join(' ')}`;
       this.log('spawning', command);
+
       const child = spawn('cryo', args);
 
       let stdout = '';
@@ -87,6 +89,7 @@ export class CryoHandler {
     transactionHashes?: string[],
     fromAddress?: string,
     toAddress?: string,
+    eventSignature?: string,
     outputDir: string = 'data'
   ): Promise<CryoResult> {
     const args = [
@@ -118,6 +121,10 @@ export class CryoHandler {
 
     if (toAddress) {
       args.push('--to-address', toAddress);
+    }
+
+    if (eventSignature) {
+      args.push('--event-signature', `${eventSignature}`);
     }
 
     let stdout = await this.spawn(args);

@@ -9,7 +9,8 @@ import { PayflowMcpServer } from "@chainbound/payflow-sdk";
 import { FourByteHandler } from "./handlers/4byte.js";
 import { CryoHandler } from "./handlers/cryo.js";
 import pkg from "../package.json" with { type: "json" };
-import { EthRpcHandler } from "./handlers/ethrpc.js";
+import { EthHandler } from "./handlers/eth.js";
+import { EtherscanHandler } from "./handlers/etherscan.js";
 
 const log = debug("cryo:mcp");
 
@@ -30,6 +31,11 @@ if (!process.env.CDP_API_KEY_ID) {
 
 if (!process.env.CDP_API_KEY_SECRET) {
     throw new Error("CDP_API_KEY_SECRET is not set");
+}
+
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
+if (!ETHERSCAN_API_KEY) {
+    throw new Error("ETHERSCAN_API_KEY is not set");
 }
 
 const RANGE_DESCRIPTION = `
@@ -96,7 +102,7 @@ export const createServer = (price: number) => {
     })
 
     server.tool("get_latest_block_number", "Get the latest block number. Always use this tool to get the latest block number for recent data queries.", async () => {
-        const ethrpc = new EthRpcHandler(RPC_URL);
+        const ethrpc = new EthHandler(RPC_URL);
         const blockNumber = await ethrpc.getLatestBlockNumber();
         return {
             content: [{
@@ -120,6 +126,19 @@ export const createServer = (price: number) => {
         }
     })
 
+    server.tool("fetch_abi", "Fetch the ABI for a given contract.", {
+        address: z.string().refine(isAddress, { message: "Invalid address" }).describe("The address of the contract to fetch the ABI for"),
+    }, async ({ address }) => {
+        const etherscan = new EtherscanHandler(ETHERSCAN_API_KEY);
+        const abi = await etherscan.getAbi(address);
+        return {
+            content: [{
+                type: "text",
+                text: abi,
+            }],
+        }
+    })
+
     server.paidTool("query_dataset", QUERY_DATASET_DESCRIPTION, {
         price: price,
         recipient: RECIPIENT,
@@ -130,14 +149,15 @@ export const createServer = (price: number) => {
         transactionHashes: z.array(z.string().refine(isHash, { message: "Invalid transaction hash" })).optional().describe("The transaction hashes to query"),
         fromAddress: z.string().refine(isAddress, { message: "Invalid address" }).optional().describe("The sender of the transaction to query"),
         toAddress: z.string().refine(isAddress, { message: "Invalid address" }).optional().describe("The receiver of the transaction to query"),
-    }, async ({ name, range, address, transactionHashes, fromAddress, toAddress }, { sessionId }) => {
+        eventSignature: z.string().optional().describe("The event signature to filter for. Needs to be the full signature, like: PairCreated(address indexed token0, address indexed token1, address pair, uint) or PoolCreated(address indexed token0, address indexed token1, uint24 indexed fee, int24 tickSpacing, address pool). If you don't have this, use the fetch_abi tool."),
+    }, async ({ name, range, address, transactionHashes, fromAddress, toAddress, eventSignature }, { sessionId }) => {
         // Rate limiting: check block count if range is specified
         if (range) {
             try {
                 const blockCount = calculateBlockCount(range);
                 log(`Block count for range "${range}": ${blockCount} blocks`);
 
-                if (blockCount > MAX_BLOCK_RANGE_PER_QUERY) {
+                if (blockCount > MAX_BLOCK_RANGE_PER_QUERY + 1) {
                     throw new Error(`Query would process ${blockCount} blocks, which exceeds the maximum of ${MAX_BLOCK_RANGE_PER_QUERY} blocks per query. Please reduce the range or use more specific filters.`);
                 }
             } catch (error) {
@@ -147,7 +167,7 @@ export const createServer = (price: number) => {
 
         const cryo = new CryoHandler(RPC_URL);
         const outputDir = `data/${sessionId!}`;
-        const result = await cryo.queryDataset(name, range, address, transactionHashes, fromAddress, toAddress, outputDir);
+        const result = await cryo.queryDataset(name, range, address, transactionHashes, fromAddress, toAddress, eventSignature, outputDir);
         log(`Queried dataset rows=${result.rows} sessionId=${sessionId}`);
         log(`Settling payment... sessionId=${sessionId}`);
 
