@@ -5,9 +5,7 @@ A Model Context Protocol (MCP) server that provides tools for creating x402 paym
 ## Features
 
 - **Payment Creation**: Generate x402 payment headers for USDC transactions on Base
-- **Wallet Integration**: Uses your private key to sign payment commitments
 - **MCP Compatible**: Works with any MCP client (Claude Desktop, etc.)
-- **Flexible Payments**: Support for any recipient address and amount
 
 ## Claude Desktop
 
