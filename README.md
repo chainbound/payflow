@@ -1,7 +1,7 @@
 # Payflow
 > An exploration of agentic commerce with MCP.
 
-## Usage with Claude Desktop
+## Claude Desktop Quickstart
 For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](./packages/cryo-mcp), a local [payflow MCP server](./packages/payflow-mcp). The payflow MCP server runs locally and holds the private key for the payer.
 
 1. Press `cmd+,` in Claude Desktop to open the settings
@@ -37,27 +37,4 @@ For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](.
     }
   }
 }
-```
-
-## Testing
-```bash
-pnpm dev
-npx @modelcontextprotocol/inspector
-```
-
-## Development
-Run the following command in the `packages/payments-mcp` directory:
-```bash
-pnpm build
-pnpm link
-```
-You'll now be able to run `payments-mcp` anywhere (e.g. in Claude Desktop MCP).
-Make sure to run `pnpm build` in the `packages/payments-mcp` directory after making changes.
-
-## Deploy
-```bash
-# Set secrets
-cat .env | fly secrets import
-# No HA, otherwise we get inconsistent sessions
-fly deploy --ha=false
 ```
