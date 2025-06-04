@@ -17,4 +17,6 @@ build:
 
 # Publish all packages in the workspace
 publish:
+    pnpm -r run format
+    pnpm -r run build 
     pnpm -r publish --access public
