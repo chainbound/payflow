@@ -9,6 +9,7 @@ import { DuckDBInstance } from "@duckdb/node-api";
 import { FourByteHandler } from "./handlers/4byte.js";
 import { CryoHandler } from "./handlers/cryo.js";
 import pkg from "../package.json" with { type: "json" };
+import { EthRpcHandler } from "./handlers/ethrpc.js";
 
 const log = debug("cryo:mcp");
 
@@ -33,7 +34,6 @@ Block specification syntax
 - can use numbers                    --blocks 5000 6000 7000
 - can use ranges                     --blocks 12M:13M 15M:16M
 - numbers can contain { _ . K M B }  5_000 5K 15M 15.5M
-- omitting range end means latest    15.5M: == 15.5M:latest
 - omitting range start means 0       :700 == 0:700
 - minus on start means minus end     -1000:7000 == 6000:7000
 - plus sign on end means plus start  15M:+1000 == 15M:15.001K
@@ -42,8 +42,8 @@ Block specification syntax
 
 const QUERY_DATASET_DESCRIPTION = `
 Query a specific cryo dataset for Ethereum data and returns the file path to the resulting Parquet file. This Parquet file can be used to run SQL queries against
-using other tools. Binary columns (like transaction hashes, addresses, calldata) are encoded and stored as 0x-prefixed hex strings.
-`
+using other tools. Binary columns (like transaction hashes, addresses, calldata) are encoded and stored as 0x-prefixed hex strings. For recent data queries, use the
+get_latest_block_number tool to get the latest block number.`
 
 const RPC_URL = process.env.RPC_URL!;
 
@@ -86,6 +86,17 @@ export const createServer = () => {
             content: [{
                 type: "text",
                 text: datasets,
+            }],
+        }
+    })
+
+    server.tool("get_latest_block_number", "Get the latest block number.", async () => {
+        const ethrpc = new EthRpcHandler(RPC_URL);
+        const blockNumber = await ethrpc.getLatestBlockNumber();
+        return {
+            content: [{
+                type: "text",
+                text: blockNumber.toString(),
             }],
         }
     })

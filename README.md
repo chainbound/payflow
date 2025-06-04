@@ -9,6 +9,7 @@ For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](.
 3. Click edit config and open the `claude_desktop_config.json` file
 4. Add the `cryo` server to the `mcpServers` object:
 5. Add the `payflow` server to the `mcpServers` object, with the correct configuration:
+
 ```json
 {
   "globalShortcut": "",
