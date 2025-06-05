@@ -77,6 +77,20 @@
             text-decoration: underline;
         }
 
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .faq-section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #444;
+            color: #f0f0f0;
+        }
+
         details.faq-item {
             background: #0f0f0f;
             border: 1px solid #333;
@@ -138,10 +152,6 @@
             font-weight: 500;
         }
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
     </style>
 </head>
 
@@ -159,16 +169,46 @@
         <div class="container">
             <a href="index.html" class="back-link">&larr; Back to Home</a>
             <div class="faq-list">
+                <h2 class="faq-section-title">General</h2>
                 <details class="faq-item">
                     <summary>What are MCP and x402?</summary>
                     <div class="faq-answer">
-                        MCP (Model Context Protocol) allows AI models to securely access local tools. x402 is a standard for web micropayments. Payflow uses both to enable agentic commerce.
+                        <a href="https://github.com/modelcontextprotocol" target="_blank" rel="noopener">MCP (Model Context Protocol)</a> allows AI models to securely access local tools. <a href="https://www.x402.org/" target="_blank" rel="noopener">x402</a> is a standard for web micropayments. Payflow uses both to enable agentic commerce.
                     </div>
                 </details>
                 <details class="faq-item">
-                    <summary>How does Payflow work?</summary>
+                    <summary>What is cryo?</summary>
                     <div class="faq-answer">
-                        Payflow runs a local server that exposes your wallet as a tool to an AI model (like Claude). The model can then request payments to be signed for services that support x402 micropayments. The private key never leaves your machine.
+                        <a href="https://github.com/paradigmxyz/cryo" target="_blank" rel="noopener">Cryo</a> is an open-source tool for extracting blockchain data at scale. It's designed to be fast and efficient, allowing you to get large datasets like blocks, transactions, and logs quickly. Payflow uses cryo's MCP-enabled version to provide data to AI models.
+                    </div>
+                </details>
+
+                <h2 class="faq-section-title">Payflow</h2>
+                <details class="faq-item">
+                    <summary>What blockchains are supported?</summary>
+                    <div class="faq-answer">
+                        Currently, Payflow supports only Ethereum Mainnet. We are working on adding support for other blockchains. If you have a specific blockchain you would like to see, please let us know. 
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What rate limits are in place?</summary>
+                    <div class="faq-answer">
+                        Payflow does not impose hardcoded rate limits. Instead, by utilizing the x402 standard, each data request is directly paid for by the user. As a result, the effective rate limit is dynamically determined by the user's willingness and ability to pay for the requested data.                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Why I am required to pay for the data? How is pricing determined?</summary>
+                    <div class="faq-answer">
+                        The cost of the data is determined by the size of the dataset. The more data you request, the higher the cost. The cost is paid in USDC, and is relateive to the number of transactions or blocks in the dataset. 
+                        Currently, the cost is 0.05 USDC per 10,000 transactions or 10,000 blocks.
+                        <br>
+                        <br>
+                        <strong>Note:</strong> The cost is currently fixed, and is not based on the complexity of the query or demand. We are working on a more dynamic pricing model that will take into account the request size and can be applied across all cryo standard datasets.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What <code>cryo</code> datasets are available?</summary>
+                    <div class="faq-answer">
+                        Currently, Payflow supports only blocks and transactions. We are working on adding more datasets to the Payflow MCP server. If you have a specific dataset you would like to see, please let us know. 
                     </div>
                 </details>
                 <details class="faq-item">
@@ -177,10 +217,10 @@
                         The Payflow server runs entirely on your local machine. Your private key is stored locally and never transmitted over the network. It is only used to sign payment transactions on your behalf, as requested by the AI model you are interacting with. However, you should always use a hot wallet with a limited amount of funds for this purpose.
                     </div>
                 </details>
-                 <details class="faq-item">
-                    <summary>What is cryo?</summary>
+                <details class="faq-item">
+                    <summary>Where are the data sourced from and how are they stored?</summary>
                     <div class="faq-answer">
-                        <code>cryo</code> is an open-source tool for extracting blockchain data at scale. It's designed to be fast and efficient, allowing you to get large datasets like blocks, transactions, and logs quickly. Payflow uses cryo's MCP-enabled version to provide data to AI models.
+                        The data is sourced from an archive reth node run by Chainbound. Once data are retrieved, they are stored in a local database on Payflow's server.
                     </div>
                 </details>
             </div>
