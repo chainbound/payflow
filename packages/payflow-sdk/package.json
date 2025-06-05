@@ -1,6 +1,6 @@
 {
   "name": "@chainbound/payflow-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Payflow SDK",
   "repository": {
     "type": "git",

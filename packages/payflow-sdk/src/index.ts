@@ -210,7 +210,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error generating requirements:', error);
         return {
-          content: [{ type: 'text', text: error, isError: true }],
+          content: [{ type: 'text', text: error instanceof Error ? error.message : String(error), isError: true }],
         };
       }
 
@@ -220,7 +220,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error verifying payment:', error);
         return {
-          content: [{ type: 'text', text: error, isError: true }],
+          content: [{ type: 'text', text: error instanceof Error ? error.message : String(error), isError: true }],
         };
       }
 
@@ -237,7 +237,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error in tool call:', error);
         return {
-          content: [{ type: 'text', text: error, isError: true }],
+          content: [{ type: 'text', text: error instanceof Error ? error.message : String(error), isError: true }],
         };
       }
 
@@ -248,7 +248,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error settling payment:', error);
         return {
-          content: [{ type: 'text', text: error, isError: true }],
+          content: [{ type: 'text', text: error instanceof Error ? error.message : String(error), isError: true }],
         };
       }
 
