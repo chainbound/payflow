@@ -17,7 +17,7 @@ const log = debug("cryo:mcp");
 /**
  * The maximum aggregated blocks per query.
  */
-const MAX_BLOCK_RANGE_PER_QUERY = 1000;
+const MAX_BLOCK_RANGE_PER_QUERY = 10000;
 
 // Get the recipient from the environment variables
 const RECIPIENT = process.env.PAYFLOW_RECIPIENT!;
@@ -40,8 +40,8 @@ if (!ETHERSCAN_API_KEY) {
 
 const RANGE_DESCRIPTION = `
 Block specification syntax
-- can use numbers                    --blocks 5000 6000 7000
-- can use ranges                     --blocks 12M:13M 15M:16M
+- can use numbers                    5000 6000 7000
+- can use ranges                     12M:13M 15M:16M
 - numbers can contain { _ . K M B }  5_000 5K 15M 15.5M
 - omitting range start means 0       :700 == 0:700
 - minus on start means minus end     -1000:7000 == 6000:7000
@@ -49,20 +49,55 @@ Block specification syntax
 - can use every nth value            2000:5000:1000 == 2000 3000 4000
 - can use n values total             100:200/5 == 100 124 149 174 199`
 
+const FETCH_ABI_DESCRIPTION = `
+Fetch the ABI for a given contract. The ABI is useful to understand the contract interface with its functions and events.
+
+Returns:
+The ABI of the contract in JSON (if it exists).
+
+Use when:
+- You need to understand the contract interface with its functions and events and present that data to the user.
+- The user asks you to do a deep dive into a specific contract and you need to understand the contract interface.
+- You use the 'query_dataset' tool with the 'eventSignature' parameter and you need to understand the event signature.
+`
+
 const QUERY_DATASET_DESCRIPTION = `
 Query a specific cryo dataset for Ethereum data.
 
 Returns:
 The file path to the resulting Parquet file. This Parquet file can be queried using the 'query_sql' tool with DuckDB SQL.
 
-When to use this tool:
-- Tasks that require querying Ethereum data.
+Use when:
+- You need to query Ethereum data to present to the user.
 
 Guidelines:
 - For recent data queries, always use the 'get_latest_block_number' tool first to get the latest block number.
 - The maximum number of blocks that can be queried at once is ${MAX_BLOCK_RANGE_PER_QUERY}. If you need to query more blocks, you have to query the data in smaller chunks.
+- If the user doesn't explicitly specify a range, use the last ${MAX_BLOCK_RANGE_PER_QUERY} blocks.
 - Use the 'help' and 'list_datasets', and 'describe_dataset' tools FIRST to get more information about the datasets and how to query them.
 - After running this tool, you can use the 'query_sql' tool to run SQL queries against the resulting Parquet file.
+`
+
+const QUERY_SQL_DESCRIPTION = `
+Run a DuckDB SQL query against a parquet file obtained from the 'query_dataset' tool.
+
+Returns:
+The result of the query.
+
+Guidelines:
+- Always use the table name 'data' to query the data.
+- Don't limit the query by default, only if necessary.
+- All binary columns (like transaction hashes, addresses, calldata) are encoded and stored as 0x-prefixed hex strings in the tables.
+`
+
+const TRANSLATE_EVENT_SIGNATURE_DESCRIPTION = `
+Translates a hexadecimal event signature into a human readable event name. This is useful to get the event name from the event signature.
+
+Returns:
+The human readable event name. 
+
+Use when:
+- You need to translate a hexadecimal event signature into a human readable event name to present to the user.
 `
 
 const RPC_URL = process.env.RPC_URL!;
@@ -135,7 +170,7 @@ export const createServer = (price: number) => {
         }
     })
 
-    server.tool("fetch_abi", "Fetch the ABI for a given contract.", {
+    server.tool("fetch_abi", FETCH_ABI_DESCRIPTION, {
         address: z.string().refine(isAddress, { message: "Invalid address" }).describe("The address of the contract to fetch the ABI for"),
     }, async ({ address }) => {
         const etherscan = new EtherscanHandler(ETHERSCAN_API_KEY);
@@ -190,7 +225,41 @@ export const createServer = (price: number) => {
         }
     });
 
-    server.tool("query_sql", "Run a DuckDB SQL query against a parquet file. Don't limit the query by default, only if necessary. All binary columns (like transaction hashes, addresses, calldata) are encoded and stored as 0x-prefixed hex strings.", {
+    server.tool("describe_table", "Describe the table in the Parquet file. This is useful to understand the schema of the table.", {
+        file: z.string().describe("The parquet file to describe."),
+    }, async ({ file }, { sessionId }) => {
+        log(`Describing table file=${file} sessionId=${sessionId}`);
+        const instance = await DuckDBInstance.create(":memory:");
+        const duckdb = await instance.connect();
+
+        if (file.includes('/') || file.includes('\\')) {
+            throw new Error('Invalid file');
+        }
+
+        if (!file.endsWith('.parquet')) {
+            throw new Error('File must be a parquet file');
+        }
+
+        const parquetFile = path.join("data", sessionId!, file);
+
+        if (!existsSync(parquetFile)) {
+            throw new Error(`File not found: ${file}`);
+        }
+
+        const reader = await duckdb.runAndReadAll(`DESCRIBE SELECT * FROM '${parquetFile}';`);
+        const rows = reader.getRowObjectsJson();
+
+        duckdb.closeSync();
+
+        return {
+            content: [{
+                type: "text",
+                text: JSON.stringify(rows, null, 2),
+            }],
+        }
+    })
+
+    server.tool("query_sql", QUERY_SQL_DESCRIPTION, {
         query: z.string().describe("The query to execute against the data. Always use the table name 'data' to query the data."),
         file: z.string().describe("The parquet file to query."),
     }, async ({ query, file }, { sessionId }) => {
@@ -230,7 +299,7 @@ export const createServer = (price: number) => {
         }
     })
 
-    server.tool("translate_event_signature", "Translates a hexadecimal event signature into a human readable event name.", {
+    server.tool("translate_event_signature", TRANSLATE_EVENT_SIGNATURE_DESCRIPTION, {
         signature: z.string().describe("The first 4 bytes of the hexadecimal event signature to translate.").refine(isSignature, { message: "Invalid signature" }),
     }, async ({ signature }) => {
         const fb = new FourByteHandler("https://www.4byte.directory/api/v1/event-signatures/");

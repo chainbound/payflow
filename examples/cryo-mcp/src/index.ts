@@ -17,7 +17,7 @@ const log = debug("cryo:server");
 /**
  * The price of a query in USDC.
  */
-const PRICE = 0.01;
+const PRICE = 0.05;
 
 // Map to store transports by session ID
 const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
@@ -166,7 +166,7 @@ app.get('/', (req: Request, res: Response) => {
                     "mcp-remote",
                     "https://cryo-mcp.fly.dev/v1/mcp",
                     "--header",
-                    "Authorization: test",
+                    "Authorization: none",
                     "--transport",
                     "http-only"
                 ]
