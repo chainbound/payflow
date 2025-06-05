@@ -319,6 +319,59 @@
         .green-border {
             border-left-color: #4ade80;
         }
+
+        details.faq-item {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        details.faq-item[open] {
+            background: #111;
+        }
+
+        details.faq-item summary {
+            padding: 14px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            color: #e5e5e5;
+            position: relative;
+            list-style: none;
+        }
+        
+        details.faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.faq-item summary:after {
+            content: '+';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4em;
+            font-weight: 400;
+            color: #999;
+            transition: all 0.2s;
+        }
+
+        details.faq-item[open] > summary {
+            color: #fff;
+        }
+
+        details.faq-item[open] > summary:after {
+            content: '−';
+        }
+        
+        .faq-answer {
+            padding: 0px 16px 16px;
+            color: #b5b5b5;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
     </style>
 </head>
 
@@ -412,7 +465,7 @@
                     </div>
                 </div>
                 <div class="section" style="grid-column: span 2;">
-                    <h2 class="section-title">Sample</h2>
+                    <h2 class="section-title">Samples</h2>
                     <div class="config-card">
                         <div class="config-title">Sample Prompt</div>
                         <pre>
@@ -466,6 +519,62 @@ Technical Metadata
     Tick: -17,536
 
                         </pre>
+                        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
+                            <div class="config-title">Other Samples</div>
+                            <div style="margin-top: 12px;">
+                                <details class="faq-item">
+                                    <summary> 
+                                        Using Cryo, decode the following Ethereum transaction: <code>0x42171c28c97afa70659d57bfdd1c33b0ef6007cafe8b201f80fa5fb176012cba</code>
+                                        <br>
+                                        Then, generate a Mermaid graph that illustrates the asset flow, including all participants (EOAs, contracts), asset types (ETH, tokens), and value amounts where applicable.
+                                    </summary>
+                                    <div class="faq-answer">
+                                        <div class="mermaid">
+                                         flowchart TD
+     A[User<br/>0x053516...b07c6] -->|249.954 USDC| B[Router Contract<br/>0x6088d9...c61d0<br/>📋 Log 259: OrderRecord<br/>Order Completed<br/>USDC→ETH]
+     B -->|249.954 USDC| C[Uniswap V3 Pool<br/>0xe0554a...32939f<br/>🔄 Log 256: Swap Event<br/>Liquidity Updated<br/>Tick: 0x3041f]
+     C -->|0.0959 WETH| B
+     B -->|0.0959 WETH| D[WETH Unwrapper<br/>0x5703b6...9d4757]
+     D -->|0.0959 WETH| E[WETH Contract<br/>0xc02aaa...756cc2<br/>📤 Log 254: Transfer Pool→Router<br/>📤 Log 257: Transfer Router→Unwrapper<br/>💸 Log 258: Withdrawal<br/>WETH → ETH]
+     E -->|0.0959 ETH| D
+     D -->|0.0959 ETH| B
+     B -->|0.0959 ETH| A
+     
+     F[USDC Contract<br/>0xa0b869...6eb48<br/>📤 Log 255: Transfer<br/>From: User<br/>To: Pool<br/>Amount: 249.954 USDC] -.->|Transfer Log| C
+     
+     G[Log Details:<br/>Log 253: Router State Update<br/>Log 254: WETH Transfer Pool→Router<br/>95,945,406,736,825,197 wei<br/>Log 255: USDC Transfer User→Pool<br/>249,954,047 units<br/>Log 256: Uniswap V3 Swap<br/>SqrtPrice: 0x4c848676a313cb7a0b8d33ab50e6<br/>Liquidity: 0x9f690c99a7cbc4<br/>Log 257: WETH Transfer Router→Unwrapper<br/>95,945,406,736,825,197 wei<br/>Log 258: WETH Withdrawal<br/>Unwrapper: 0x5703b6...<br/>Log 259: OrderRecord Complete<br/>TokenIn: USDC TokenOut: ETH]
+     
+     style A fill:#e1f5fe
+     style B fill:#f3e5f5
+     style C fill:#e8f5e8
+     style D fill:#fff3e0
+     style E fill:#fce4ec
+     style F fill:#e3f2fd
+     style G fill:#f1f8e9
+     
+     classDef tokenflow stroke:#2196f3,stroke-width:3px
+     classDef ethflow stroke:#ff9800,stroke-width:3px
+     classDef loginfo stroke:#4caf50,stroke-width:2px
+     
+     class A,B,C,D,E,F tokenflow
+     class G loginfo
+                                        </div>
+                                    </div>
+                                </details>
+                                <details class="faq-item">
+                                    <summary>Is my private key secure?</summary>
+                                    <div class="faq-answer">
+                                        Yes. The Payflow server runs entirely on your local machine. Your private key never leaves your computer. It is only used locally to sign payment requests, which are then sent to the agent.
+                                    </div>
+                                </details>
+                                <details class="faq-item">
+                                    <summary>What are MCP and x402?</summary>
+                                    <div class="faq-answer">
+                                        MCP (Model Context Protocol) allows AI models to securely access local tools. x402 is a standard for web micropayments. Payflow uses both to enable agentic commerce.
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -498,6 +607,10 @@ Technical Metadata
                 console.error('Failed to copy: ', err);
             });
         }
+    </script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
     </script>
 </body>
 

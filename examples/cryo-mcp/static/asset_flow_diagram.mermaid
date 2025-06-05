@@ -1,0 +1,28 @@
+flowchart TD
+    A[User<br/>0x053516...b07c6] -->|249.954 USDC| B[Router Contract<br/>0x6088d9...c61d0<br/>📋 Log 259: OrderRecord<br/>Order Completed<br/>USDC→ETH]
+    B -->|249.954 USDC| C[Uniswap V3 Pool<br/>0xe0554a...32939f<br/>🔄 Log 256: Swap Event<br/>Liquidity Updated<br/>Tick: 0x3041f]
+    C -->|0.0959 WETH| B
+    B -->|0.0959 WETH| D[WETH Unwrapper<br/>0x5703b6...9d4757]
+    D -->|0.0959 WETH| E[WETH Contract<br/>0xc02aaa...756cc2<br/>📤 Log 254: Transfer Pool→Router<br/>📤 Log 257: Transfer Router→Unwrapper<br/>💸 Log 258: Withdrawal<br/>WETH → ETH]
+    E -->|0.0959 ETH| D
+    D -->|0.0959 ETH| B
+    B -->|0.0959 ETH| A
+    
+    F[USDC Contract<br/>0xa0b869...6eb48<br/>📤 Log 255: Transfer<br/>From: User<br/>To: Pool<br/>Amount: 249.954 USDC] -.->|Transfer Log| C
+    
+    G[Log Details:<br/>Log 253: Router State Update<br/>Log 254: WETH Transfer Pool→Router<br/>95,945,406,736,825,197 wei<br/>Log 255: USDC Transfer User→Pool<br/>249,954,047 units<br/>Log 256: Uniswap V3 Swap<br/>SqrtPrice: 0x4c848676a313cb7a0b8d33ab50e6<br/>Liquidity: 0x9f690c99a7cbc4<br/>Log 257: WETH Transfer Router→Unwrapper<br/>95,945,406,736,825,197 wei<br/>Log 258: WETH Withdrawal<br/>Unwrapper: 0x5703b6...<br/>Log 259: OrderRecord Complete<br/>TokenIn: USDC TokenOut: ETH]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#e3f2fd
+    style G fill:#f1f8e9
+    
+    classDef tokenflow stroke:#2196f3,stroke-width:3px
+    classDef ethflow stroke:#ff9800,stroke-width:3px
+    classDef loginfo stroke:#4caf50,stroke-width:2px
+    
+    class A,B,C,D,E,F tokenflow
+    class G loginfo
