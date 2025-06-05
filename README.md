@@ -23,7 +23,6 @@ For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](.
 
 ```json
 {
-  "globalShortcut": "",
   "mcpServers": {
     "cryo": {
       "command": "npx",
