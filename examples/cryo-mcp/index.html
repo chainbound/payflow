@@ -299,6 +299,26 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
         }
+
+        /* Lighter status boxes for processing messages */
+        .processing-box {
+            background: #0f0f0f;
+            color: #b5b5b5;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            font-style: italic;
+            border-left: 3px solid #4ade80;
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
+
+        .yellow-border {
+            border-left-color: #ffa500;
+        }
+
+        .green-border {
+            border-left-color: #4ade80;
+        }
     </style>
 </head>
 
@@ -389,6 +409,63 @@
                             <div class="tool-description">Decode hexadecimal event signatures to human-readable names
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="section" style="grid-column: span 2;">
+                    <h2 class="section-title">Sample</h2>
+                    <div class="config-card">
+                        <div class="config-title">Sample Prompt</div>
+                        <pre>
+Decode the logs of the following transaction: 0x899b8dcbb9c43dbbf20934cf6d620e72316e3a05a8cccd39a2e53759d6df0081
+
+Please extract:
+    • Swap metadata (e.g., tokens involved, amounts, path, DEX or router used)
+    • Net token transfers between the user and the pool (clearly separating inflows and outflows)                        </pre>
+                        <div class="processing-box green-border" style="margin-top: 12px;">
+                            <strong>Prompt Parsing</strong> — Claude reads your request, requests to Cryo MCP which tools are available, and decides which dataset to query.
+                        </div>
+                        <div class="processing-box green-border" style="margin-top: 12px;">
+                            <strong>Payment Request</strong> — Claude asks the local Payflow MCP server to generate the signed micropayment payload.
+                        </div>
+                        <div class="processing-box green-border" style="margin-top: 12px;">
+                            <strong>Micropayment</strong> — Claude sends the micropayment via x402 to the Cryo MCP server.
+                        </div>
+                        <div style="font-size: 0.85rem; color:#4ade80; margin-top:4px; margin-bottom:12px;">✅ Payment processed — paid 0.05&nbsp;USDC</div>
+                        <div class="processing-box yellow-border" style="margin-top: 12px;">
+                            <strong>Payment Verification</strong> — Cryo MCP confirms the payment validity via Coinbase facilitator.
+                        </div>
+                        <div class="processing-box yellow-border" style="margin-top: 12px;">
+                            <strong>Data Retrieval</strong> — Cryo MCP executes the query via its local node, and sends it back to Claude.
+                        </div>
+                        <div class="processing-box green-border" style="margin-top: 12px;">
+                            <strong>Result Decoding</strong> — Claude parses the dataset, and compiles the final answer for you.
+                        </div>
+                        <div class="config-title" style="margin-top: 8px;">Sample Answer</div>
+                        <pre>
+Transaction Analysis Summary
+    Transaction Hash: 0x899b8dcbb9c43dbbf20934cf6d620e72316e3a05a8cccd39a2e53759d6df0081
+
+Swap Details
+    This transaction represents a SKY → WETH swap on Uniswap V3 where:
+
+    User: 0xfbd4cdb413e45a52e2c8312f670e9ce67e794c37
+    Pool: 0x764510ab1d39cf300e7abe8f5b8977d18f290628 (SKY/WETH Uniswap V3 Pool)
+    Block: 22,639,515
+
+Token Movements
+    SKY Transfer (Log 769): User sent 95,067.95 SKY to the pool
+    WETH Transfer (Log 768): Pool sent 2.772260 WETH to the user
+    Swap Event (Log 770): Recorded the exchange with detailed metadata
+
+Exchange Rate
+    Rate: ~34,299 SKY per 1 WETH
+
+Technical Metadata
+    SqrtPriceX96: 428,287,079,139,934,610,832,547,040
+    Liquidity: 565,170,137,150,867,722,820,494
+    Tick: -17,536
+
+                        </pre>
                     </div>
                 </div>
             </div>
