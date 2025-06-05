@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payflow - FAQ</title>
+    <link rel="icon"
+        href="https://assets.super.so/10c0a707-23ce-423d-b26e-fa509e9ed296/images/20216544-6959-4f62-8062-ea0317dfc78b/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+            color: #e5e5e5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 20px 0 15px;
+            background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+            border-bottom: 1px solid #333;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content {
+            padding: 30px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #333;
+            margin-top: 30px;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        details.faq-item {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        details.faq-item[open] {
+            background: #111;
+        }
+
+        details.faq-item summary {
+            padding: 14px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            color: #e5e5e5;
+            position: relative;
+            list-style: none;
+        }
+        
+        details.faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.faq-item summary:after {
+            content: '+';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4em;
+            font-weight: 400;
+            color: #999;
+            transition: all 0.2s;
+        }
+
+        details.faq-item[open] > summary {
+            color: #fff;
+        }
+
+        details.faq-item[open] > summary:after {
+            content: '−';
+        }
+        
+        .faq-answer {
+            padding: 0px 16px 16px;
+            color: #b5b5b5;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #ffa500;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p class="hero-subtitle">
+                Answers to common questions about Payflow, MCP, and x402.
+            </p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>What are MCP and x402?</summary>
+                    <div class="faq-answer">
+                        MCP (Model Context Protocol) allows AI models to securely access local tools. x402 is a standard for web micropayments. Payflow uses both to enable agentic commerce.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>How does Payflow work?</summary>
+                    <div class="faq-answer">
+                        Payflow runs a local server that exposes your wallet as a tool to an AI model (like Claude). The model can then request payments to be signed for services that support x402 micropayments. The private key never leaves your machine.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Is it safe to put my private key in the configuration?</summary>
+                    <div class="faq-answer">
+                        The Payflow server runs entirely on your local machine. Your private key is stored locally and never transmitted over the network. It is only used to sign payment transactions on your behalf, as requested by the AI model you are interacting with. However, you should always use a hot wallet with a limited amount of funds for this purpose.
+                    </div>
+                </details>
+                 <details class="faq-item">
+                    <summary>What is cryo?</summary>
+                    <div class="faq-answer">
+                        <code>cryo</code> is an open-source tool for extracting blockchain data at scale. It's designed to be fast and efficient, allowing you to get large datasets like blocks, transactions, and logs quickly. Payflow uses cryo's MCP-enabled version to provide data to AI models.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">
+                Powered by <a href="https://github.com/paradigmxyz/cryo" class="link" target="_blank">cryo</a> and <a
+                    href="https://github.com/paradigmxyz/reth" class="link" target="_blank">reth</a> •
+                Built with <a href="https://github.com/modelcontextprotocol" class="link" target="_blank">MCP</a> •
+                Micropayments via <a href="https://www.x402.org" class="link" target="_blank">x402</a> •
+                Built by <a href="https://chainbound.io" class="link" target="_blank">Chainbound</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html> 
