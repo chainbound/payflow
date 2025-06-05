@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import fs from 'node:fs';
 import debug from 'debug';
+import path from 'path';
 
 const MAX_ROWS = 10000;
 
@@ -97,6 +98,7 @@ export class CryoHandler {
       '--rpc',
       this.rpc,
       '--hex', // Use hex string encoding for binary columns
+      '--overwrite', // We need this so our file extraction works
       '--output-dir',
       outputDir,
       '--chunk-size',
@@ -144,7 +146,7 @@ export class CryoHandler {
     }
 
     return {
-      files: extractOutputFile(outputDir, stdout),
+      files: extractOutputFile(outputDir),
       rows: extractRowsWritten(stdout) ?? 0,
     };
   }
@@ -158,31 +160,22 @@ export class CryoHandler {
  * @param stdout - The stdout of the cryo command.
  * @returns The path to the output file.
  */
-function extractOutputFile(outputDir: string, stdout: string): string[] {
-  // Extract the report file path from stdout
-  const match = stdout.match(/- report file:\s*(.+\.json)/);
-  if (!match) {
-    throw new Error('No report file found in stdout');
+function extractOutputFile(outputDir: string): string[] {
+  // Find the most recent parquet file in the output directory
+  const files = fs.readdirSync(outputDir)
+    .filter(file => file.endsWith('.parquet'))
+    .map(file => ({
+      name: file,
+      path: path.join(outputDir, file),
+      time: fs.statSync(path.join(outputDir, file)).mtime
+    }))
+    .sort((a, b) => b.time.getTime() - a.time.getTime());
+
+  if (files.length === 0) {
+    throw new Error('No parquet files found in output directory');
   }
 
-  // Replace $OUTPUT_DIR with the actual output directory
-  const reportFilePath = match[1].replace('$OUTPUT_DIR', outputDir);
-
-  try {
-    // Read and parse the JSON report file
-    const reportContent = fs.readFileSync(reportFilePath, 'utf8');
-    const report = JSON.parse(reportContent);
-
-    // Extract the first completed path
-    const completedPaths = report.results?.completed_paths;
-    if (!completedPaths || completedPaths.length === 0) {
-      throw new Error('No completed paths found in report');
-    }
-
-    return completedPaths;
-  } catch (error) {
-    throw new Error(`Failed to read report file ${reportFilePath}: ${error}`);
-  }
+  return [files[0].path];
 }
 
 /**
