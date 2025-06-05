@@ -11,6 +11,7 @@ import fs from "node:fs";
 
 const app = express();
 app.use(express.json());
+app.use(express.static(path.join(process.cwd(), 'static')));
 
 const log = debug("cryo:server");
 
@@ -184,7 +185,7 @@ app.get('/', (req: Request, res: Response) => {
 
     try {
         // Read the HTML template file
-        const htmlTemplate = fs.readFileSync(path.join(process.cwd(), 'static', 'index.html'), 'utf8');
+        const htmlTemplate = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf8');
 
         // Replace the placeholders with actual values
         const html = htmlTemplate

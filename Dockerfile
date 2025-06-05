@@ -29,8 +29,6 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 COPY packages/payflow-sdk/src ./packages/payflow-sdk/src
 COPY examples/cryo-mcp/src ./examples/cryo-mcp/src
 
-# Copy static files
-COPY examples/cryo-mcp/static ./examples/cryo-mcp/static
 
 COPY packages/payflow-sdk/tsup.config.ts ./packages/payflow-sdk/tsup.config.ts
 
@@ -66,8 +64,8 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 COPY --from=build /app/packages/payflow-sdk/dist ./packages/payflow-sdk/dist
 COPY --from=build /app/examples/cryo-mcp/dist ./examples/cryo-mcp/dist
 
-# Copy static files for the web interface
-COPY --from=build /app/examples/cryo-mcp/static ./examples/cryo-mcp/static
+COPY examples/cryo-mcp/index.html ./examples/cryo-mcp/index.html
+COPY examples/cryo-mcp/static ./examples/cryo-mcp/static
 
 # Set working directory to the package
 WORKDIR /app/examples/cryo-mcp
