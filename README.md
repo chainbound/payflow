@@ -6,11 +6,11 @@
 
 ## Repository Structure
 
-| Package | Description |
-| ------- | ----------- |
-| [@chainbound/payflow-mcp](./packages/payflow-mcp) | Local MCP server for generating micropayments |
-| [@chainbound/payflow-sdk](./packages/payflow-sdk) | TypeScript SDK for integrating micropayments into your MCP server |
-| [examples/cryo-mcp](./examples/cryo-mcp) | Example MCP server using `payflow-sdk` powered by [`cryo`](https://github.com/paradigmxyz/cryo) |
+| Package | Description | Docs |
+| ------- | ----------- | ------- |
+| [@chainbound/payflow-mcp](./packages/payflow-mcp) | Local MCP server for generating micropayments | [docs](./packages/payflow-mcp/README.md) |
+| [@chainbound/payflow-sdk](./packages/payflow-sdk) | TypeScript SDK for integrating micropayments into your MCP server | [docs](./packages/payflow-sdk/README.md) |
+| [examples/cryo-mcp](./examples/cryo-mcp) | Example MCP server using `payflow-sdk` powered by [`cryo`](https://github.com/paradigmxyz/cryo) | [docs](./examples/cryo-mcp/README.md) |
 
 ## Claude Desktop Quickstart
 For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](./packages/cryo-mcp), a local [payflow MCP server](./packages/payflow-mcp). The payflow MCP server runs locally and holds the private key for the payer.
