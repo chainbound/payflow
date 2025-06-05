@@ -84,6 +84,33 @@
             font-size: 0.9rem;
         }
 
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .benefit-card {
+            background: #0f0f0f;
+            padding: 15px;
+            border: 1px solid #333;
+            min-height: 100px;
+            border-radius: 4px;
+        }
+
+        .benefit-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .benefit-description {
+            color: #b5b5b5;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
         .config-card {
             background: #111;
             border: 1px solid #333;
@@ -286,6 +313,10 @@
                 opacity: 1;
                 max-height: none;
             }
+
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .docs-link {
@@ -417,6 +448,27 @@
                     <p class="section-description">
                         Payflow adopts the emerging x402 standard for agent-first commerce. This enables agents to make micropayments for individual data requests, offering a flexible, pay-per-query model. The payments are settled on Base and are paid in USDC. 
                     </p>
+                </div>
+            </div>
+            <div class="warning">
+                <h2 class="section-title">Why Payflow?</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <h3 class="benefit-title">No API Keys or SaaS Fees</h3>
+                        <p class="benefit-description">Payflow allows your AI-Agent to pay only for the data it needs. No need for API keys or SaaS subscriptions.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3 class="benefit-title">Broaden your research capabilities</h3>
+                        <p class="benefit-description"> Supercharge your data analytics by enabling your AI agent to independently explore, retrieve, and pay for the exact data it needs.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3 class="benefit-title">Real-time data access</h3>
+                        <p class="benefit-description"> Access the latest data with no delay, ensuring your AI agent always has the most up-to-date information.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <h3 class="benefit-title">Native ABI decoding support</h3>
+                        <p class="benefit-description"> On top of the standard cryo datasets, Payflow also supports decoding of ABI data.</p>
+                    </div>
                 </div>
             </div>
             <div class="warning">
