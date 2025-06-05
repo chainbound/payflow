@@ -43,7 +43,7 @@ export class CryoHandler {
         } else {
           const msg = stderr.trim() || stdout.trim();
           this.log('cryo failed with code', code, 'and message', msg);
-          reject(msg);
+          reject(new Error(msg));
         }
       });
     });
@@ -127,7 +127,22 @@ export class CryoHandler {
       args.push('--event-signature', `${eventSignature}`);
     }
 
-    let stdout = await this.spawn(args);
+    let stdout;
+    try {
+      stdout = await this.spawn(args);
+    } catch (error) {
+      this.log('cryo failed with error', error);
+      // NOTE: weird bug with cryo, it will throw an error if no events are found matching the signature and
+      // the column type is unsupported: https://github.com/paradigmxyz/cryo/blob/559b65455d7ef6b03e8e9e96a0e50fd4fe8a9c86/crates/to_df/src/lib.rs#L138
+      if (eventSignature && error instanceof Error && error.message.includes('could not generate')) {
+        return {
+          files: [],
+          rows: 0,
+        };
+      }
+      throw error;
+    }
+
     return {
       files: extractOutputFile(outputDir, stdout),
       rows: extractRowsWritten(stdout) ?? 0,
