@@ -50,11 +50,20 @@ Block specification syntax
 - can use n values total             100:200/5 == 100 124 149 174 199`
 
 const QUERY_DATASET_DESCRIPTION = `
-Query a specific cryo dataset for Ethereum data and returns the file path to the resulting Parquet file. This Parquet file can be used to run SQL queries against
-using other tools. Binary columns (like transaction hashes, addresses, calldata) are encoded and stored as 0x-prefixed hex strings. For recent data queries, always use the
-get_latest_block_number tool to get the latest block number.
+Query a specific cryo dataset for Ethereum data.
 
-IMPORTANT: The maximum number of blocks that can be queried at once is ${MAX_BLOCK_RANGE_PER_QUERY}. If you need to query more blocks, you can query the data in smaller chunks.`
+Returns:
+The file path to the resulting Parquet file. This Parquet file can be queried using the 'query_sql' tool with DuckDB SQL.
+
+When to use this tool:
+- Tasks that require querying Ethereum data.
+
+Guidelines:
+- For recent data queries, always use the 'get_latest_block_number' tool first to get the latest block number.
+- The maximum number of blocks that can be queried at once is ${MAX_BLOCK_RANGE_PER_QUERY}. If you need to query more blocks, you have to query the data in smaller chunks.
+- Use the 'help' and 'list_datasets', and 'describe_dataset' tools FIRST to get more information about the datasets and how to query them.
+- After running this tool, you can use the 'query_sql' tool to run SQL queries against the resulting Parquet file.
+`
 
 const RPC_URL = process.env.RPC_URL!;
 
@@ -181,7 +190,7 @@ export const createServer = (price: number) => {
         }
     });
 
-    server.tool("query_sql", "Run a DuckDB SQL query against a parquet file. Don't limit the query by default, only if necessary.", {
+    server.tool("query_sql", "Run a DuckDB SQL query against a parquet file. Don't limit the query by default, only if necessary. All binary columns (like transaction hashes, addresses, calldata) are encoded and stored as 0x-prefixed hex strings.", {
         query: z.string().describe("The query to execute against the data. Always use the table name 'data' to query the data."),
         file: z.string().describe("The parquet file to query."),
     }, async ({ query, file }, { sessionId }) => {
