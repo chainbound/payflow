@@ -213,15 +213,14 @@ export const createServer = (price: number) => {
         const cryo = new CryoHandler(RPC_URL);
         const outputDir = `data/${sessionId!}`;
         const result = await cryo.queryDataset(name, range, address, transactionHashes, fromAddress, toAddress, eventSignature, outputDir);
-        log(`Queried dataset rows=${result.rows} sessionId=${sessionId}`);
-        log(`Settling payment... sessionId=${sessionId}`);
 
         const fileNames = result.files.map(file => path.basename(file));
+        log(`Queried dataset rows=${result.rows} sessionId=${sessionId} files=${fileNames.join(', ')}`);
 
         return {
             content: [{
                 type: "text",
-                text: JSON.stringify(fileNames),
+                text: fileNames.length > 0 ? JSON.stringify(fileNames) : "No output files were generated.",
             }],
         }
     });

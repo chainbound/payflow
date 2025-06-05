@@ -10,7 +10,7 @@ swap_size_mb = 8192
 [build]
 
 [env]
-DEBUG = 'cryo:*'
+DEBUG = 'cryo:*,payflow-sdk'
 NODE_ENV = 'production'
 
 [[mounts]]

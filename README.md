@@ -2,7 +2,7 @@
 [![npm](https://img.shields.io/npm/v/@chainbound/payflow-mcp)](https://www.npmjs.com/package/@chainbound/payflow-mcp)
 [![npm](https://img.shields.io/npm/v/@chainbound/payflow-sdk)](https://www.npmjs.com/package/@chainbound/payflow-sdk)
 
-> An exploration of agentic commerce with MCP.
+> An exploration of agentic commerce with MCP. View the [demo](https://cryo-mcp.fly.dev/).
 
 ## Claude Desktop Quickstart
 For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](./packages/cryo-mcp), a local [payflow MCP server](./packages/payflow-mcp). The payflow MCP server runs locally and holds the private key for the payer.
