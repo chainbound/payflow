@@ -529,6 +529,7 @@ Technical Metadata
                                         Then, generate a Mermaid graph that illustrates the asset flow, including all participants (EOAs, contracts), asset types (ETH, tokens), and value amounts where applicable.
                                     </summary>
                                     <div class="faq-answer">
+                                        <p>View the full response <a href="https://claude.ai/share/5127d6e8-8a20-4d09-8805-5341220a3939" target="_blank" rel="noopener">here</a>.</p>
                                         <div class="mermaid">
                                          flowchart TD
      A[User<br/>0x053516...b07c6] -->|249.954 USDC| B[Router Contract<br/>0x6088d9...c61d0<br/>📋 Log 259: OrderRecord<br/>Order Completed<br/>USDC→ETH]
@@ -562,9 +563,32 @@ Technical Metadata
                                     </div>
                                 </details>
                                 <details class="faq-item">
-                                    <summary>Is my private key secure?</summary>
+                                    <summary>Using Cryo, analyze the last 100 Ethereum blocks and detect any suspicious transactions.</summary>
                                     <div class="faq-answer">
-                                        Yes. The Payflow server runs entirely on your local machine. Your private key never leaves your computer. It is only used locally to sign payment requests, which are then sent to the agent.
+                                        <p>View the full response <a href="https://claude.ai/share/aa9499d6-1fe5-4a4e-9e70-64b1a8623883" target="_blank" rel="noopener">here</a>.</p>
+                                        <pre style="margin-top: 15px;">
+The analysis of the last 100 blocks has revealed several highly suspicious transaction patterns that warrant immediate attention. 
+Here are the key findings:
+
+Most Critical Concerns:
+1. Massive ETH Transfer (2,654 ETH)
+    A single transaction moved $6.6M worth of ETH, which is extremely unusual
+    The sender address has been highly active with 110 transactions moving 2,745 ETH total
+
+2. Failed Exploit Attempts
+    One address made 6+ repeated failed attempts against the same contract
+    Each attempt burned ~416K gas, suggesting automated exploitation attempts
+
+3. MEV Bot Manipulation
+    Detected extreme gas price manipulation (578 Gwei vs normal 15 Gwei)
+    Clear evidence of front-running and sandwich attack attempts
+
+4. Coordinated Transfer Chain
+    Suspicious sequence of large transfers (1,071→1,161→1,161 ETH) that could indicate money laundering
+
+The analysis processed 20,158 transactions and identified multiple high-risk addresses and contracts that should be monitored closely. 
+The report above contains specific transaction hashes, addresses, and detailed patterns for further investigation.
+Would you like me to dive deeper into any specific suspicious pattern or analyze additional data like contract interactions or token transfers?</pre>
                                     </div>
                                 </details>
                                 <details class="faq-item">
