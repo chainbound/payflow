@@ -210,6 +210,16 @@ export const createServer = (price: number) => {
             }
         }
 
+        if (transactionHashes) {
+            if (transactionHashes.length > MAX_BLOCK_RANGE_PER_QUERY) {
+                throw new Error(`You can only query up to ${MAX_BLOCK_RANGE_PER_QUERY} transaction hashes at once.`);
+            }
+        }
+
+        if (!range && !transactionHashes) {
+            throw new Error("Either range or transactionHashes must be specified");
+        }
+
         const cryo = new CryoHandler(RPC_URL);
         const outputDir = `data/${sessionId!}`;
         const result = await cryo.queryDataset(name, range, address, transactionHashes, fromAddress, toAddress, eventSignature, outputDir);
