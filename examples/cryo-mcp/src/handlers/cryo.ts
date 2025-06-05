@@ -162,12 +162,13 @@ export class CryoHandler {
  */
 function extractOutputFile(outputDir: string): string[] {
   // Find the most recent parquet file in the output directory
-  const files = fs.readdirSync(outputDir)
-    .filter(file => file.endsWith('.parquet'))
-    .map(file => ({
+  const files = fs
+    .readdirSync(outputDir)
+    .filter((file) => file.endsWith('.parquet'))
+    .map((file) => ({
       name: file,
       path: path.join(outputDir, file),
-      time: fs.statSync(path.join(outputDir, file)).mtime
+      time: fs.statSync(path.join(outputDir, file)).mtime,
     }))
     .sort((a, b) => b.time.getTime() - a.time.getTime());
 
