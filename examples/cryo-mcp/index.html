@@ -67,6 +67,13 @@
             color: #fff;
         }
 
+        .section-description {
+            color: #b5b5b5;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            max-width: 80ch;
+        }
+
         .warning {
             background: #1a1a1a;
             color: #ffa500;
@@ -380,7 +387,7 @@
         <div class="container">
             <h1>Payflow</h1>
             <p class="hero-subtitle">
-                An exploration of agentic commerce with micropayments and MCP.
+                Next-gen blockchain analytics — powered by MCP and agentic micropayments.
             </p>
             <div style="margin-top: 18px; margin-bottom: 10px; display: flex; justify-content: center; gap: 12px;">
                 <a href="https://github.com/chainbound/payflow?tab=readme-ov-file#payflow" target="_blank"
@@ -398,6 +405,20 @@
 
     <div class="main-content">
         <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="warning">
+                    <h2 class="section-title">What is Payflow?</h2>
+                    <p class="section-description">
+                        <strong>Payflow is an agentic commerce platform designed to empower AI agents with real-time blockchain data retrieval and on-demand analytics.</strong> Users can seamlessly integrate Payflow MPC into Claude to access its capabilities. Payflow MPC leverages </code>cryo</code> to efficiently query data and return results in a structured, easy-to-parse format.
+                    </p>
+                </div>
+                <div class="warning">
+                    <h2 class="section-title">On-chain micropayments</h2>
+                    <p class="section-description">
+                        Payflow adopts the emerging x402 standard for agent-first commerce. This enables agents to make micropayments for individual data requests, offering a flexible, pay-per-query model. The payments are settled on Base and are paid in USDC. 
+                    </p>
+                </div>
+            </div>
             <div class="warning">
                 <strong>Setup Required:</strong> Set your <code>PRIVATE_KEY</code> in the payflow configuration
                 below.
