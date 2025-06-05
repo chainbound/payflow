@@ -8,8 +8,8 @@
 
 | Package | Description |
 | ------- | ----------- |
-| [@chainbound/payflow-mcp](./packages/payflow-mcp) | MCP server for micropayments |
-| [@chainbound/payflow-sdk](./packages/payflow-sdk) | SDK for micropayments |
+| [@chainbound/payflow-mcp](./packages/payflow-mcp) | Local MCP server for generating micropayments |
+| [@chainbound/payflow-sdk](./packages/payflow-sdk) | TypeScript SDK for integrating micropayments into your MCP server |
 | [examples/cryo-mcp](./examples/cryo-mcp) | Example MCP server using `payflow-sdk` powered by [`cryo`](https://github.com/paradigmxyz/cryo) |
 
 ## Claude Desktop Quickstart
