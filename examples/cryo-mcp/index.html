@@ -102,7 +102,7 @@
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #fff;
+            color: #ffa500;
         }
 
         .benefit-description {
@@ -443,13 +443,13 @@
                 <div class="warning">
                     <h2 class="section-title">What is Payflow?</h2>
                     <p class="section-description">
-                        <strong>Payflow is an agentic commerce platform designed to empower AI agents with real-time blockchain data retrieval and on-demand analytics.</strong> Users can seamlessly integrate Payflow MPC into Claude to access its capabilities. Payflow MPC leverages </code>cryo</code> to efficiently query data and return results in a structured, easy-to-parse format.
+                        <strong>Payflow is an agentic commerce platform designed to empower AI agents with real-time blockchain data retrieval and on-demand analytics.</strong> Users can seamlessly integrate Payflow into Claude to access its capabilities. Payflow leverages </code>cryo</code> MPC to efficiently query data and return results in a structured, easy-to-parse format.
                     </p>
                 </div>
                 <div class="warning">
                     <h2 class="section-title">On-chain micropayments</h2>
                     <p class="section-description">
-                        Payflow adopts the emerging x402 standard for agent-first commerce. This enables agents to make micropayments for individual data requests, offering a flexible, pay-per-query model. The payments are settled on Base and are paid in USDC. 
+                        Payflow adopts the emerging x402 standard for agent-first commerce. This enables agents to make micropayments for individual data requests, offering a flexible, pay-per-query model. The payments are created and signed locally via the Payflow MPC, and settled on Base (USDC). 
                     </p>
                 </div>
             </div>
@@ -457,28 +457,28 @@
                 <h2 class="section-title">Why Payflow?</h2>
                 <div class="benefits-grid">
                     <div class="benefit-card">
-                        <h3 class="benefit-title">No API Keys or SaaS Fees</h3>
-                        <p class="benefit-description">Payflow allows your AI-Agent to pay only for the data it needs. No need for API keys or SaaS subscriptions.</p>
+                        <h3 class="benefit-title">Pay-Per-Query Model</h3>
+                        <p class="benefit-description">Your AI agent pays only for the specific data it retrieves. No monthly subscriptions or API key management required.</p>
                     </div>
                     <div class="benefit-card">
-                        <h3 class="benefit-title">Broaden your research capabilities</h3>
-                        <p class="benefit-description"> Supercharge your data analytics by enabling your AI agent to independently explore, retrieve, and pay for the exact data it needs.</p>
+                        <h3 class="benefit-title">Enhanced Analytics</h3>
+                        <p class="benefit-description">Empower your AI agent with autonomous data exploration capabilities, enabling precise and targeted blockchain analysis.</p>
                     </div>
                     <div class="benefit-card">
-                        <h3 class="benefit-title">Real-time data access</h3>
-                        <p class="benefit-description"> Access the latest data with no delay, ensuring your AI agent always has the most up-to-date information.</p>
+                        <h3 class="benefit-title">Instant Data Access</h3>
+                        <p class="benefit-description">Query and receive blockchain data in real-time, ensuring your analysis is always based on the latest information.</p>
                     </div>
                     <div class="benefit-card">
-                        <h3 class="benefit-title">Native ABI decoding support</h3>
-                        <p class="benefit-description"> On top of the standard cryo datasets, Payflow also supports decoding of ABI data.</p>
+                        <h3 class="benefit-title">Smart Contract Insights</h3>
+                        <p class="benefit-description">Built-in ABI decoding capabilities provide rich context for smart contract interactions beyond raw blockchain data.</p>
                     </div>
                 </div>
             </div>
 
             <div class="section" style="grid-column: span 2;">
-                <h2 class="section-title">Samples</h2>
+                <h2 class="section-title">Sample Flow</h2>
                 <div class="config-card">
-                    <div class="config-title">Sample Prompt</div>
+                    <div class="config-title">Prompt</div>
                     <pre>
 Decode the logs of the following transaction: 0x899b8dcbb9c43dbbf20934cf6d620e72316e3a05a8cccd39a2e53759d6df0081
 
@@ -504,7 +504,7 @@ Please extract:
                     <div class="processing-box green-border" style="margin-top: 12px;">
                         <strong>Result Decoding</strong> — Claude parses the dataset, and compiles the final answer for you.
                     </div>
-                    <div class="config-title" style="margin-top: 8px;">Sample Answer</div>
+                    <div class="config-title" style="margin-top: 8px;">Answer</div>
                     <pre>
 Transaction Analysis Summary
     Transaction Hash: 0x899b8dcbb9c43dbbf20934cf6d620e72316e3a05a8cccd39a2e53759d6df0081
