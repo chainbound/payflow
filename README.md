@@ -4,6 +4,14 @@
 
 > An exploration of agentic commerce with MCP. View the [demo](https://cryo-mcp.fly.dev/).
 
+## Repository Structure
+
+| Package | Description |
+| ------- | ----------- |
+| [@chainbound/payflow-mcp](./packages/payflow-mcp) | MCP server for micropayments |
+| [@chainbound/payflow-sdk](./packages/payflow-sdk) | SDK for micropayments |
+| [examples/cryo-mcp](./examples/cryo-mcp) | Example MCP server using `payflow-sdk` powered by [`cryo`](https://github.com/paradigmxyz/cryo) |
+
 ## Claude Desktop Quickstart
 For the purposes of this demo, we'll use the remote and paid [Cryo MCP server](./packages/cryo-mcp), a local [payflow MCP server](./packages/payflow-mcp). The payflow MCP server runs locally and holds the private key for the payer.
 
