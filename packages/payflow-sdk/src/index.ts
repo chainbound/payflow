@@ -11,6 +11,7 @@ import type {
 import { z, type ZodRawShape, type ZodTypeAny } from 'zod';
 import debug from 'debug';
 import type { Network, PaymentPayload, PaymentRequirements, SettleResponse, VerifyResponse } from 'x402/types';
+import { ErrorReasons } from 'x402/types';
 import { useFacilitator } from 'x402/verify';
 import { createFacilitatorConfig } from '@coinbase/x402';
 import { exact } from 'x402/schemes';
@@ -153,6 +154,7 @@ export class PayflowMcpServer extends McpServer {
       },
     ];
 
+    // NOTE: This ONLY finds matches on the scheme and the network. Nothing else!
     const selectedPaymentRequirements = findMatchingPaymentRequirements(paymentRequirements, payload);
     if (!selectedPaymentRequirements) {
       throw new Error('No matching payment requirements found');
@@ -165,7 +167,7 @@ export class PayflowMcpServer extends McpServer {
     const verifyResponse = await this.verify(payload, requirements);
 
     if (!verifyResponse.isValid) {
-      throw new Error(verifyResponse.invalidReason);
+      throw enrichVerificationError(requirements, verifyResponse.invalidReason);
     }
   }
 
@@ -202,7 +204,15 @@ export class PayflowMcpServer extends McpServer {
       const payload = exact.evm.decodePayment(payment);
       payload.x402Version = this.options.x402?.version ?? 1;
 
-      const requirements = this.generateRequirements(payload, name, price, recipient, 'base');
+      let requirements: PaymentRequirements;
+      try {
+        requirements = this.generateRequirements(payload, name, price, recipient, 'base');
+      } catch (error) {
+        this.log('Error generating requirements:', error);
+        return {
+          content: [{ type: 'text', text: error, isError: true }],
+        };
+      }
 
       // Step 1: Verify the payment.
       try {
@@ -210,7 +220,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error verifying payment:', error);
         return {
-          content: [{ type: 'text', text: `Error: ${error}`, isError: true }],
+          content: [{ type: 'text', text: error, isError: true }],
         };
       }
 
@@ -227,7 +237,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error in tool call:', error);
         return {
-          content: [{ type: 'text', text: `Error: ${error}`, isError: true }],
+          content: [{ type: 'text', text: error, isError: true }],
         };
       }
 
@@ -238,7 +248,7 @@ export class PayflowMcpServer extends McpServer {
       } catch (error) {
         this.log('Error settling payment:', error);
         return {
-          content: [{ type: 'text', text: `Error: ${error}`, isError: true }],
+          content: [{ type: 'text', text: error, isError: true }],
         };
       }
 
@@ -364,7 +374,7 @@ export class PayflowMcpServer extends McpServer {
 
     // Generate description
     const toolDescription = description || `Paid tool ${name}`;
-    const fullDescription = `${toolDescription} (Payflow details: price: ${paymentOptions.price}, recipient: ${paymentOptions.recipient})`;
+    const fullDescription = `${toolDescription}\nIMPORTANT: Payflow payment details:\n-Price: ${paymentOptions.price}\n- Recipient: ${paymentOptions.recipient}`;
 
     // Register the tool
     if (annotations) {
@@ -391,5 +401,28 @@ export class PayflowMcpServer extends McpServer {
       'safeParse' in value &&
       typeof value.safeParse === 'function'
     );
+  }
+}
+
+function enrichVerificationError(requirements: PaymentRequirements, reason?: (typeof ErrorReasons)[number]): Error {
+  switch (reason) {
+    case 'insufficient_funds':
+      return new Error(`${reason}: Insufficient funds for payment. Required: ${requirements.maxAmountRequired}`);
+    case 'invalid_exact_evm_payload_authorization_valid_after':
+      return new Error(`${reason}: Invalid validAfter value in the payment`);
+    case 'invalid_exact_evm_payload_authorization_valid_before':
+      return new Error(`${reason}: Invalid validBefore value in the payment`);
+    case 'invalid_exact_evm_payload_authorization_value':
+      return new Error(
+        `${reason}: The value of the payment is incorrect, it should be ${requirements.maxAmountRequired}`
+      );
+    case 'invalid_exact_evm_payload_signature':
+      return new Error(`${reason}: Invalid signature in the payment`);
+    case 'invalid_exact_evm_payload_recipient_mismatch':
+      return new Error(`${reason}: Recipient mismatch in the payment. Pay to: ${requirements.payTo}`);
+    case 'invalid_network':
+      return new Error(`${reason}: Invalid network in the payment. Network: ${requirements.network}`);
+    default:
+      return new Error(`Payment verification failed: ${reason || 'unknown reason'}`);
   }
 }
