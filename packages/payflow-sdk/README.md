@@ -1,4 +1,5 @@
 # Payflow SDK
+[![npm](https://img.shields.io/npm/v/@chainbound/payflow-sdk)](https://www.npmjs.com/package/@chainbound/payflow-sdk)
 
 The Payflow SDK is a Typescript library for building paid MCP servers using various micropayment protocols. It extends the [Model Context Protocol SDK](https://github.com/modelcontextprotocol/typescript-sdk) to provide a unified interface for building paid MCP servers.
 

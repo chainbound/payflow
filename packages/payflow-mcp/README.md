@@ -1,4 +1,5 @@
 # Payflow MCP Server
+[![npm](https://img.shields.io/npm/v/@chainbound/payflow-mcp)](https://www.npmjs.com/package/@chainbound/payflow-mcp)
 
 A Model Context Protocol (MCP) server that provides tools for creating x402 payment headers to use with paid MCP servers. This server acts as a payment client, allowing users to generate payment headers that can be submitted to paid MCP tools.
 
