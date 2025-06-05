@@ -17,7 +17,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
             color: #e5e5e5;
             min-height: 100vh;
         }
@@ -30,63 +30,64 @@
 
         .hero {
             text-align: center;
-            padding: 40px 0 30px;
-            background: #111;
+            padding: 20px 0 15px;
+            background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
             border-bottom: 1px solid #333;
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: #fff;
             letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #999;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .main-content {
-            padding: 80px 0;
+            padding: 30px 0;
         }
 
         .section {
-            margin-bottom: 60px;
+            margin-bottom: 20px;
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             color: #fff;
         }
 
         .warning {
             background: #1a1a1a;
             color: #ffa500;
-            padding: 20px;
+            padding: 12px;
             border: 1px solid #333;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .config-card {
             background: #111;
             border: 1px solid #333;
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 20px;
+            height: fit-content;
         }
 
         .config-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             color: #fff;
         }
 
@@ -97,9 +98,9 @@
         pre {
             background: #000;
             color: #e5e5e5;
-            padding: 24px;
+            padding: 16px;
             overflow-x: auto;
-            font-size: 14px;
+            font-size: 12px;
             line-height: 1.5;
             border: 1px solid #333;
             font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
@@ -109,14 +110,14 @@
             background: #333;
             color: #999;
             border: none;
-            padding: 6px 10px;
+            padding: 4px 8px;
             cursor: pointer;
             font-weight: 500;
-            font-size: 12px;
+            font-size: 11px;
             transition: all 0.15s ease;
             position: absolute;
-            top: 12px;
-            right: 12px;
+            top: 8px;
+            right: 8px;
         }
 
         .copy-btn:hover {
@@ -128,44 +129,61 @@
             background: #555;
         }
 
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 1px;
             background: #333;
-            margin-bottom: 40px;
         }
 
         .tool-card {
             background: #111;
-            padding: 24px;
+            padding: 12px 16px;
             transition: background 0.15s ease;
+            border-left: 3px solid transparent;
         }
 
         .tool-card:hover {
+            background: #1a1a1a;
+            border-left-color: #ffa500;
+        }
+
+        .tool-card:nth-child(even) {
+            background: #0f0f0f;
+        }
+
+        .tool-card:nth-child(even):hover {
             background: #1a1a1a;
         }
 
         .tool-name {
             font-weight: 600;
             color: #fff;
-            margin-bottom: 8px;
-            font-size: 1rem;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
         }
 
         .tool-description {
             color: #999;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            line-height: 1.4;
         }
 
         .paid-badge {
             display: inline-block;
             background: #ffa500;
             color: #000;
-            padding: 2px 8px;
-            font-size: 0.75rem;
+            padding: 1px 6px;
+            font-size: 0.7rem;
             font-weight: 600;
-            margin-left: 8px;
+            margin-left: 6px;
         }
 
         .steps {
@@ -207,14 +225,14 @@
 
         .footer {
             text-align: center;
-            padding: 40px 0;
+            padding: 20px 0;
             border-top: 1px solid #333;
-            margin-top: 80px;
+            margin-top: 30px;
         }
 
         .footer-text {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .link {
@@ -228,33 +246,58 @@
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5rem;
+                font-size: 1.8rem;
             }
 
             .hero {
-                padding: 60px 0 40px;
+                padding: 20px 0 15px;
             }
 
             .main-content {
-                padding: 40px 0;
+                padding: 20px 0;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .tools-grid {
                 grid-template-columns: 1fr;
             }
+
+            .tool-card {
+                padding: 8px 12px;
+            }
+
+            .tool-name {
+                font-size: 0.85rem;
+            }
+
+            .tool-description {
+                font-size: 0.75rem;
+                opacity: 1;
+                max-height: none;
+            }
         }
 
         .docs-link {
             display: inline-block;
-            padding: 10px 22px;
+            padding: 8px 16px;
             background: #ffa500;
             color: #000;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             border-radius: 6px;
             text-decoration: none;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: background 0.15s;
+        }
+
+        .docs-link:hover {
+            background: #ffb733;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
         }
     </style>
 </head>
@@ -270,7 +313,7 @@
                 <a href="https://github.com/chainbound/payflow?tab=readme-ov-file#payflow" target="_blank"
                     class="docs-link">
                     <img src="/github.png" alt="GitHub"
-                        style="width:22px;height:22px;vertical-align:middle;margin-right:8px;">
+                        style="width:18px;height:18px;vertical-align:middle;margin-right:6px;">
                     Documentation
                 </a>
             </div>
@@ -287,57 +330,65 @@
                 with some USDC.
             </div>
 
-            <div class="section">
-                <h2 class="section-title">Claude Desktop Configuration</h2>
-                <div class="config-card">
-                    <div class="config-title">Add this to your <code>claude_desktop_config.json</code>:</div>
-                    <div class="code-container">
-                        <pre id="config">{{CONFIG_JSON}}</pre>
-                        <button class="copy-btn" onclick="copyToClipboard()">Copy Configuration</button>
+            <div class="content-grid">
+                <div class="section">
+                    <h2 class="section-title">Claude Desktop Configuration</h2>
+                    <div class="config-card">
+                        <div class="config-title">Add this to your <code>claude_desktop_config.json</code>:</div>
+                        <div class="code-container">
+                            <pre id="config">{{CONFIG_JSON}}</pre>
+                            <button class="copy-btn" onclick="copyToClipboard()">Copy Configuration</button>
+                        </div>
+                        <div
+                            style="margin-top: 12px; padding: 10px; background: #0a0a0a; border: 1px solid #333; border-radius: 4px; font-size: 0.8rem; color: #999;">
+                            <strong style="color: #4ade80;">🔒 Security:</strong> The Payflow server runs entirely
+                            on your local machine. Your private key never leaves your computer and is only used locally
+                            for payment signing.
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Available Tools</h2>
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-name">help</div>
-                        <div class="tool-description">Get help and usage instructions for all available tools</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">list_datasets</div>
-                        <div class="tool-description">List all available cryo datasets (blocks, transactions, logs,
-                            etc.)</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">get_latest_block_number</div>
-                        <div class="tool-description">Get the latest block number for recent data queries</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">describe_dataset</div>
-                        <div class="tool-description">Get detailed schema information for any dataset</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">fetch_abi</div>
-                        <div class="tool-description">Fetch the ABI for a contract to understand its interface</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">query_dataset<span class="paid-badge">{{PRICE}} USDC</span></div>
-                        <div class="tool-description">Query blockchain data and export to Parquet files, max 10,000
-                            blocks at a time</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">query_sql</div>
-                        <div class="tool-description">Run DuckDB SQL queries against your exported data</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">describe_table</div>
-                        <div class="tool-description">Describe the schema of a Parquet file</div>
-                    </div>
-                    <div class="tool-card">
-                        <div class="tool-name">translate_event_signature</div>
-                        <div class="tool-description">Decode hexadecimal event signatures to human-readable names</div>
+                <div class="section">
+                    <h2 class="section-title">Available Tools</h2>
+                    <div class="tools-grid">
+                        <div class="tool-card">
+                            <div class="tool-name">query_dataset<span class="paid-badge">{{PRICE}} USDC</span></div>
+                            <div class="tool-description">Query blockchain data and export to Parquet files, max 10,000
+                                blocks at a time</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">help</div>
+                            <div class="tool-description">Get help and usage instructions for all available tools</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">list_datasets</div>
+                            <div class="tool-description">List all available cryo datasets (blocks, transactions, logs,
+                                etc.)</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">get_latest_block_number</div>
+                            <div class="tool-description">Get the latest block number for recent data queries</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">describe_dataset</div>
+                            <div class="tool-description">Get detailed schema information for any dataset</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">fetch_abi</div>
+                            <div class="tool-description">Fetch the ABI for a contract to understand its interface</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">query_sql</div>
+                            <div class="tool-description">Run DuckDB SQL queries against your exported data</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">describe_table</div>
+                            <div class="tool-description">Describe the schema of a Parquet file</div>
+                        </div>
+                        <div class="tool-card">
+                            <div class="tool-name">translate_event_signature</div>
+                            <div class="tool-description">Decode hexadecimal event signatures to human-readable names
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
