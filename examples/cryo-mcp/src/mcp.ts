@@ -74,6 +74,7 @@ Guidelines:
 - For recent data queries, always use the 'get_latest_block_number' tool first to get the latest block number.
 - The maximum number of blocks that can be queried at once is ${MAX_BLOCK_RANGE_PER_QUERY}. If you need to query more blocks, you have to query the data in smaller chunks.
 - If the user doesn't explicitly specify a range, use the last ${MAX_BLOCK_RANGE_PER_QUERY} blocks.
+- If the user asks for events / logs, use the 'eventSignature' parameter to filter for the event signature after fetching the ABI with the 'fetch_abi' tool.
 - Use the 'help' and 'list_datasets', and 'describe_dataset' tools FIRST to get more information about the datasets and how to query them.
 - After running this tool, you can use the 'query_sql' tool to run SQL queries against the resulting Parquet file.
 `
