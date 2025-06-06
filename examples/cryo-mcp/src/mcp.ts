@@ -194,7 +194,7 @@ export const createServer = (price: number) => {
         transactionHashes: z.array(z.string().refine(isHash, { message: "Invalid transaction hash" })).optional().describe("The transaction hashes to query"),
         fromAddress: z.string().refine(isAddress, { message: "Invalid address" }).optional().describe("The sender of the transaction to query"),
         toAddress: z.string().refine(isAddress, { message: "Invalid address" }).optional().describe("The receiver of the transaction to query"),
-        eventSignature: z.string().optional().describe("The event signature to filter for. Needs to be the full signature, like: PairCreated(address indexed token0, address indexed token1, address pair, uint) or PoolCreated(address indexed token0, address indexed token1, uint24 indexed fee, int24 tickSpacing, address pool). If you don't have this, use the fetch_abi tool."),
+        eventSignature: z.string().refine(isValidEventSignatureString, { message: "Invalid event signature. Needs to be the full signature, like: PairCreated(address indexed token0, address indexed token1, address pair, uint) or PoolCreated(address indexed token0, address indexed token1, uint24 indexed fee, int24 tickSpacing, address pool). If you don't have this, use the fetch_abi tool." }).optional().describe("The event signature to filter for."),
     }, async ({ name, range, address, transactionHashes, fromAddress, toAddress, eventSignature }, { sessionId }) => {
         // Rate limiting: check block count if range is specified
         if (range) {
@@ -497,6 +497,22 @@ function calculateBlockCountForPart(part: string): number {
 
     // If we get here, it's an invalid format
     throw new Error(`Invalid block range format: "${part}"`);
+}
+
+const practicalEventRegex = /^[a-zA-Z_][a-zA-Z0-9_]*\((\s*((address|bool|string|bytes\d{0,2}|u?int\d{0,3})\s*(indexed\s+)?[a-zA-Z_][a-zA-Z0-9_]*(\[\])?)\s*(,\s*((address|bool|string|bytes\d{0,2}|u?int\d{0,3})\s*(indexed\s+)?[a-zA-Z_][a-zA-Z0-9_]*(\[\])?))*\s*)?\)$/;
+
+/**
+ * Check if a string is a valid event signature string like:
+ * - PairCreated(address indexed token0, address indexed token1, address pair, uint)
+ * - PoolCreated(address indexed token0, address indexed token1, uint24 indexed fee, int24 tickSpacing, address pool)
+ * @param value - The string to check.
+ * @returns True if the string is a valid event signature string, false otherwise.
+ */
+function isValidEventSignatureString(value: string): boolean {
+    const normalized = value.trim().replace(/\s+/g, ' ');
+
+    return practicalEventRegex.test(normalized);
+
 }
 
 /**
