@@ -1,8 +1,0 @@
-node_modules/
-dist/
-data/
-.cryo/
-tmp/
-*.csv
-*.parquet
-examples.sh 

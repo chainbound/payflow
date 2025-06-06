@@ -39,30 +39,6 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
-  examples/cryo-mcp:
-    dependencies:
-      '@chainbound/payflow-sdk':
-        specifier: workspace:*
-        version: link:../../packages/payflow-sdk
-      '@duckdb/node-api':
-        specifier: 1.3.0-alpha.21
-        version: 1.3.0-alpha.21
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.12.0
-        version: 1.12.0
-      debug:
-        specifier: ^4.4.1
-        version: 4.4.1(supports-color@5.5.0)
-      express:
-        specifier: ^5.1.0
-        version: 5.1.0
-      viem:
-        specifier: ^2.30.0
-        version: 2.30.0(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.23)
-      zod:
-        specifier: ^3.25.23
-        version: 3.25.23
-
   packages/payflow-mcp:
     dependencies:
       '@coinbase/x402':
