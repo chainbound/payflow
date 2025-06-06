@@ -409,18 +409,22 @@
                 <div class="warning">
                     <h2 class="section-title">What is Payflow?</h2>
                     <p class="section-description">
-                        <strong>Payflow is an agentic commerce platform designed to empower AI agents with real-time
-                            blockchain data retrieval and on-demand analytics.</strong> Users can seamlessly integrate
-                        Payflow MPC into Claude to access its capabilities. Payflow MPC leverages </code>cryo</code> to
-                        efficiently query data and return results in a structured, easy-to-parse format.
+                        <strong>Payflow is an agentic commerce library designed to empower AI agents to pay for MCP
+                            tools in real-time
+                            with stablecoin-based micropayments. </strong>Users can seamlessly integrate the
+                        Payflow-enabled
+                        demo MCP server powered by Cryo into Claude or Cursor to access its paid tools and turn them
+                        into powerful Ethereum data analysts. Check out some examples <a href="#examples"
+                            style="color: #ffa500;">below</a>.
                     </p>
                 </div>
                 <div class="warning">
                     <h2 class="section-title">On-chain micropayments</h2>
                     <p class="section-description">
-                        Payflow adopts the emerging x402 standard for agent-first commerce. This enables agents to make
-                        micropayments for individual data requests, offering a flexible, pay-per-query model. The
-                        payments are settled on Base and are paid in USDC.
+                        Payflow adopts the emerging <a href="https://www.x402.org/" target="_blank" rel="noopener"
+                            style="color: #ffa500;">x402</a> standard for agent-first commerce. This
+                        enables agents to make micropayments for individual data requests, offering a flexible,
+                        pay-per-query model. The payments are settled on Base and are paid in USDC.
                     </p>
                 </div>
             </div>
@@ -494,7 +498,7 @@
                     </div>
                 </div>
                 <div class="section" style="grid-column: span 2;">
-                    <h2 class="section-title">Examples</h2>
+                    <h2 class="section-title" id="examples">Examples</h2>
                     <div class="config-card">
                         <div class="config-title">Example Prompt</div>
                         <pre>
@@ -504,30 +508,35 @@ Please extract:
     • Swap metadata (e.g., tokens involved, amounts, path, DEX or router used)
     • Net token transfers between the user and the pool (clearly separating inflows and outflows)                        </pre>
                         <div class="processing-box green-border" style="margin-top: 12px;">
-                            <strong>Prompt Parsing</strong> — Claude reads your request, requests to Cryo MCP which
-                            tools are available, and decides which dataset to query.
+                            <strong>[Local] Step 1: </strong> Claude reads your request, understands that it has to use
+                            the Cryo
+                            MCP server, and checks out the available tools and datasets. It then decides that it has to
+                            use
+                            the paid <code>query_dataset</code> tool to get the data.
                         </div>
                         <div class="processing-box green-border" style="margin-top: 12px;">
-                            <strong>Payment Request</strong> — Claude asks the local Payflow MCP server to generate the
-                            signed micropayment payload.
+                            <strong>[Local] Step 2: </strong> Claude asks the local Payflow MCP server to generate the
+                            signed micropayment payload, using the details it got from the <code>query_dataset</code>
+                            tool description.
                         </div>
                         <div class="processing-box green-border" style="margin-top: 12px;">
-                            <strong>Micropayment</strong> — Claude sends the micropayment via x402 to the Cryo MCP
-                            server.
+                            <strong>[Local] Step 3: </strong> Claude calls the remote <code>query_dataset</code> tool
+                            with the
+                            signed transaction payload.
+                        </div>
+                        <div class="processing-box yellow-border" style="margin-top: 12px;">
+                            <strong>[Remote] Step 4: </strong> Cryo MCP verifies the payment validity via the Coinbase
+                            x402 facilitator, and if valid, executes the query and generates the Parquet results.
+                        </div>
+                        <div class="processing-box yellow-border" style="margin-top: 12px;">
+                            <strong>[Remote] Step 5: </strong> After the results have been generated successfully, the
+                            payment is settled and the resulting files are made available to Claude.
                         </div>
                         <div style="font-size: 0.85rem; color:#4ade80; margin-top:4px; margin-bottom:12px;">✅ Payment
-                            processed — paid 0.05&nbsp;USDC</div>
-                        <div class="processing-box yellow-border" style="margin-top: 12px;">
-                            <strong>Payment Verification</strong> — Cryo MCP confirms the payment validity via Coinbase
-                            facilitator.
-                        </div>
-                        <div class="processing-box yellow-border" style="margin-top: 12px;">
-                            <strong>Data Retrieval</strong> — Cryo MCP executes the query via its local node, and sends
-                            it back to Claude.
-                        </div>
+                            processed — paid {{PRICE}} USDC</div>
                         <div class="processing-box green-border" style="margin-top: 12px;">
-                            <strong>Result Decoding</strong> — Claude parses the dataset, and compiles the final answer
-                            for you.
+                            <strong>[Local] Step 6: </strong> Claude parses the dataset, executes some SQL queries, and
+                            compiles the final answer for you.
                         </div>
                         <div class="config-title" style="margin-top: 8px;">Answer</div>
                         <pre>
