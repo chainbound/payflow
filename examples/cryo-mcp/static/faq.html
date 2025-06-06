@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payflow - FAQ</title>
+    <link rel="icon"
+        href="https://assets.super.so/10c0a707-23ce-423d-b26e-fa509e9ed296/images/20216544-6959-4f62-8062-ea0317dfc78b/favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+            color: #e5e5e5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 20px 0 15px;
+            background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+            border-bottom: 1px solid #333;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-content {
+            padding: 30px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #333;
+            margin-top: 30px;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .link {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .faq-section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #444;
+            color: #f0f0f0;
+        }
+
+        details.faq-item {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        details.faq-item[open] {
+            background: #111;
+        }
+
+        details.faq-item summary {
+            padding: 14px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            color: #e5e5e5;
+            position: relative;
+            list-style: none;
+        }
+
+        details.faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.faq-item summary:after {
+            content: '+';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4em;
+            font-weight: 400;
+            color: #999;
+            transition: all 0.2s;
+        }
+
+        details.faq-item[open]>summary {
+            color: #fff;
+        }
+
+        details.faq-item[open]>summary:after {
+            content: '−';
+        }
+
+        .faq-answer {
+            padding: 0px 16px 16px;
+            color: #b5b5b5;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .important {
+            color: #ffa500;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #ffa500;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p class="hero-subtitle">
+                Answers to common questions about Payflow, MCP, and x402.
+            </p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <a href="/" class="back-link">&larr; Back to Home</a>
+            <div class="faq-list">
+                <h2 class="faq-section-title">General</h2>
+                <details class="faq-item">
+                    <summary>What are MCP and x402?</summary>
+                    <div class="faq-answer">
+                        <a href="https://github.com/modelcontextprotocol" target="_blank" rel="noopener"
+                            class="important">MCP (Model
+                            Context Protocol)</a> allows AI models to securely access local tools. <a
+                            href="https://www.x402.org/" target="_blank" rel="noopener" class="important">x402</a> is a
+                        standard for web
+                        micropayments. Payflow uses both to enable agentic commerce.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What is cryo?</summary>
+                    <div class="faq-answer">
+                        <a href="https://github.com/paradigmxyz/cryo" target="_blank" rel="noopener"
+                            class="important">Cryo</a> is an
+                        open-source tool for extracting blockchain data at scale. It's designed to be fast and
+                        efficient, allowing you to get large datasets like blocks, transactions, and logs quickly.
+                        Payflow uses an MCP server around Cryo to provide data to AI models.
+                    </div>
+                </details>
+
+                <h2 class="faq-section-title">Payflow</h2>
+                <details class="faq-item">
+                    <summary>What blockchains are supported?</summary>
+                    <div class="faq-answer">
+                        Currently, the Cryo MCP server supports Ethereum Mainnet. We are working on adding support for
+                        other blockchains. Payments are settled on Base in USDC. If you have a specific blockchain you
+                        would like to see, please let us know.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What rate limits are in place?</summary>
+                    <div class="faq-answer">
+                        The Cryo MCP server limits the range per query to 10,000 transactions or 10,000 blocks for all
+                        datasets, with a fixed cost of 0.05 USDC per request.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Why I am required to pay for the data? How is pricing determined?</summary>
+                    <div class="faq-answer">
+                        The cost of the data is determined by the size of the query. The more data you request, the
+                        higher the cost. The cost is paid in USDC, and is relative to the number of transactions or
+                        blocks in the dataset.
+                        Currently, the cost is 0.05 USDC per 10,000 transactions or 10,000 blocks.
+                        <br>
+                        <br>
+                        <strong class="important">Note:</strong> The cost is currently fixed, and is not based on the
+                        complexity of the
+                        query or the dataset, or on demand. This is because we use the `exact` scheme of the x402
+                        protocol,
+                        which is the only scheme that is implemented in the x402 library so far.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What <code>cryo</code> datasets are available?</summary>
+                    <div class="faq-answer">
+                        The Cryo MCP server supports all datasets available in the Cryo library.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Is it safe to put my private key in the configuration?</summary>
+                    <div class="faq-answer">
+                        The Cryo MCP server runs entirely on your local machine. Your private key is stored locally
+                        and never transmitted over the network. It is only used to sign payment transactions on your
+                        behalf, as requested by the AI model you are interacting with. You can also configure
+                        the Payflow MCP server with hard limits per query. <strong class="important">Nevertheless,
+                            ALWAYS use a new
+                            burner wallet when setting it up!</strong>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Where does the data come from and how is it stored?</summary>
+                    <div class="faq-answer">
+                        The data is sourced from an archive reth node run by Chainbound. Once the dataset is generated,
+                        they are stored in Parquet files on the remote server, and retained for 12 hours.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p class="footer-text">
+                Powered by <a href="https://github.com/paradigmxyz/cryo" class="link" target="_blank">cryo</a> and <a
+                    href="https://github.com/paradigmxyz/reth" class="link" target="_blank">reth</a> •
+                Built with <a href="https://github.com/modelcontextprotocol" class="link" target="_blank">MCP</a> •
+                Micropayments via <a href="https://www.x402.org" class="link" target="_blank">x402</a> •
+                Built by <a href="https://chainbound.io" class="link" target="_blank">Chainbound</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
